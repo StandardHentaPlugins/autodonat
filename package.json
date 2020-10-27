@@ -7,7 +7,6 @@
 		"release-it": "yarn version --patch && git push --follow-tags"
 	},
 	"dependencies": {
-		"henta": "^3.0.0",
 		"sequelize": "^5.21.7"
 	}
 }

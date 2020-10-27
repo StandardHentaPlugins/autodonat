@@ -1,4 +1,3 @@
-import Henta from 'henta';
 import Sequelize from 'sequelize';
 import crypto from 'crypto';
 import { TimedPex } from './timedPex';
@@ -12,7 +11,7 @@ export default class AutodonatPlugin {
   DonatProcess: any;
   timedPex: TimedPex;
 
-  constructor(henta: Henta) {
+  constructor(henta) {
     this.henta = henta;
     this.timedPex = new TimedPex(henta);
   }
@@ -67,7 +66,7 @@ export default class AutodonatPlugin {
     await Promise.all(Array.from(this.providers.values()).filter(v => v.init).map(v => v.init(this.henta)));
   }
 
-  async start(henta: Henta) {
+  async start(henta) {
     await Promise.all(Array.from(this.providers.values()).filter(v => v.start).map(v => v.start(this.henta)));
     await this.timedPex.start(henta);
   }
