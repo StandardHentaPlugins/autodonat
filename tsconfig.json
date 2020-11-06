@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
       "outDir": "lib/",
-      "esModuleInterop": true,
       "types": ["node"],
-      "target": "ES2017",
+      "module": "ES2020",
+      "target": "ES2019",
       "skipLibCheck": true,
-      "module": "commonjs"
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true
   },
   "filesGlob": [
 		"src/*.ts"

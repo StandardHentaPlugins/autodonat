@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import crypto from 'crypto';
-import { TimedPex } from './timedPex';
+import { TimedPex } from './timedPex.js';
       
 export default class AutodonatPlugin {
   henta: any;
@@ -21,7 +21,7 @@ export default class AutodonatPlugin {
     this.goods = await henta.util.loadConfig('autodonat/goods.json');
     await Promise.all(
       this.settings.providers.map(async v => {
-        const providerModule = await import(`${henta['botdir']}/src/autodonat/providers/${v.slug}.js`);
+        const providerModule = await import(`file:///${henta['botdir']}/src/autodonat/providers/${v.slug}.js`);
         const ProviderClass = providerModule.default || providerModule;
         const provider = new ProviderClass(henta, this, v.settings);
         this.providers.set(v.slug, provider);
@@ -30,7 +30,7 @@ export default class AutodonatPlugin {
 
     await Promise.all(
       this.settings.handlers.map(async v => {
-        const handlerModule = await import(`${henta['botdir']}/src/autodonat/handlers/${v}.js`);
+        const handlerModule = await import(`file:///${henta['botdir']}/src/autodonat/handlers/${v}.js`);
         const HandlerClass = handlerModule.default || handlerModule;
         const handler = new HandlerClass(henta, this);
         this.handlers.set(v, handler);
@@ -91,7 +91,8 @@ export default class AutodonatPlugin {
     });
   }
 
-  async run(code, amount) {
+  async run(code, rawAmount) {
+    const amount = Math.floor(rawAmount);
     const process = await this.DonatProcess.findOne({ where: { amount, code } });
     if (!process) {
       return;
